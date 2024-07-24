@@ -1240,6 +1240,13 @@ function x_farming.register_crate(name, def)
 
     _def._custom = _def._custom or {}
 
+    local mod = "x_farming"
+    if name:find(":") then
+        local n = name:split(":")
+        mod = n[1]
+        name = n[2]
+    end
+
     _def.name = 'x_farming:' .. name
     _def.description = def.description or name
     _def.short_description = def.short_description or def.description
@@ -1266,7 +1273,7 @@ function x_farming.register_crate(name, def)
         flammable = 2
     }
     _def.stack_max = def.stack_max or 1
-    _def.mod_origin = 'x_farming'
+    _def.mod_origin = mod
     -- MCL
     _def._mcl_hardness = 0.6
     _def._mcl_blast_resistance = 0.6
