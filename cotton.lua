@@ -18,33 +18,60 @@
 
 local S = minetest.get_translator(minetest.get_current_modname())
 
--- COTTON
-x_farming.register_plant('x_farming:cotton', {
-    description = S('Cotton Seed') .. '\n' .. S('Compost chance') .. ': 30%',
-    short_description = S('Cotton Seed'),
-    paramtype2 = 'meshoptions',
-    inventory_image = 'x_farming_cotton_seed.png',
-    steps = 8,
-    minlight = 13,
-    maxlight = 14,
-    fertility = { 'grassland' },
-    groups = { flammable = 4 },
-    place_param2 = 34,
-})
+if minetest.get_modpath("farming") then
+    minetest.register_alias("x_farming:cotton","farming:cotton")
+    minetest.register_alias("x_farming:string","farming:string")
+else
+    -- COTTON
+    x_farming.register_plant('x_farming:cotton', {
+        description = S('Cotton Seed') .. '\n' .. S('Compost chance') .. ': 30%',
+        short_description = S('Cotton Seed'),
+        paramtype2 = 'meshoptions',
+        inventory_image = 'x_farming_cotton_seed.png',
+        steps = 8,
+        minlight = 13,
+        maxlight = 14,
+        fertility = { 'grassland' },
+        groups = { flammable = 4 },
+        place_param2 = 34,
+    })
 
--- needed
-local cotton_def = {
-    description = S('Cotton') .. '\n' .. S('Compost chance') .. ': 50%',
-    short_description = S('Cotton'),
-    groups = {
-        -- X Farming
-        compost = 50,
-        -- MCL
-        compostability = 50,
+    -- needed
+    local cotton_def = {
+        description = S('Cotton') .. '\n' .. S('Compost chance') .. ': 50%',
+        short_description = S('Cotton'),
+        groups = {
+            -- X Farming
+            compost = 50,
+            -- MCL
+            compostability = 50,
+        }
     }
-}
 
-minetest.override_item('x_farming:cotton', cotton_def)
+    minetest.override_item('x_farming:cotton', cotton_def)
+
+    minetest.register_decoration(asuna.features.crops.cotton.inject_decoration({
+        deco_type = "simple",
+        sidelen = 8,
+        noise_params = {
+            offset = -0.4125,
+            scale = 0.3575,
+            spread = {x = 14, y = 14, z = 14},
+            seed = 1106,
+            octaves = 2,
+            persist = 0.62,
+            lacunarity = 0.675,
+        },
+        y_max = 31000,
+        y_min = 5,
+        decoration = {
+            "x_farming:cotton_5",
+            "x_farming:cotton_6",
+            "x_farming:cotton_7",
+            "x_farming:cotton_8",
+        },
+    }))
+end
 
 -- Crate
 x_farming.register_crate('crate_cotton2_3', {
@@ -55,53 +82,3 @@ x_farming.register_crate('crate_cotton2_3', {
         crate_item = 'x_farming:cotton'
     }
 })
-
-minetest.register_on_mods_loaded(function()
-    local deco_place_on = {}
-    local deco_biomes = {}
-
-    -- MTG
-    if minetest.get_modpath('default') then
-        table.insert(deco_place_on, 'default:dry_dirt_with_dry_grass')
-        table.insert(deco_biomes, 'savanna')
-    end
-
-    -- Everness
-    if minetest.get_modpath('everness') then
-        table.insert(deco_place_on, 'everness:dry_dirt_with_dry_grass')
-        table.insert(deco_biomes, 'everness:baobab_savanna')
-    end
-
-    -- MCL
-    if minetest.get_modpath('mcl_core') then
-        table.insert(deco_place_on, 'mcl_core:dirt_with_grass')
-        table.insert(deco_biomes, 'Savanna')
-    end
-
-    if next(deco_place_on) and next(deco_biomes) then
-        minetest.register_decoration({
-            name = 'x_farming:cotton',
-            deco_type = 'simple',
-            place_on = deco_place_on,
-            sidelen = 16,
-            noise_params = {
-                offset = -0.1,
-                scale = 0.1,
-                spread = { x = 50, y = 50, z = 50 },
-                seed = 4242,
-                octaves = 3,
-                persist = 0.7
-            },
-            biomes = deco_biomes,
-            y_max = 31000,
-            y_min = 1,
-            decoration = {
-                'x_farming:cotton_5',
-                'x_farming:cotton_6',
-                'x_farming:cotton_7',
-                'x_farming:cotton_8'
-            },
-            param2 = 42,
-        })
-    end
-end)

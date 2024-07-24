@@ -393,7 +393,6 @@ minetest.register_node('x_farming:obsidian_wart_decor', {
     description = S('Obsidian Wart'),
     short_description = S('Obsidian Wart'),
     drawtype = 'plantlike_rooted',
-    waving = 1,
     paramtype = 'light',
     tiles = { 'default_obsidian.png' },
     special_tiles = { { name = 'x_farming_obsidian_wart_6.png', tileable_vertical = true } },
@@ -411,6 +410,7 @@ minetest.register_node('x_farming:obsidian_wart_decor', {
         dig_by_piston = 1
     },
     light_source = 4,
+    glow = 0,
     selection_box = {
         type = 'fixed',
         fixed = {
@@ -451,24 +451,15 @@ x_farming.register_crate('crate_obsidian_wart_3', {
     }
 })
 
-minetest.register_on_mods_loaded(function()
-    minetest.register_decoration({
-        name = 'x_farming:obsidian_wart_decor',
-        deco_type = 'simple',
-        place_offset_y = -1,
-        place_on = { 'default:stone' },
-        sidelen = 16,
-        noise_params = {
-            offset = -0.1,
-            scale = 0.1,
-            spread = { x = 50, y = 50, z = 50 },
-            seed = 4242,
-            octaves = 3,
-            persist = 0.7
-        },
-        y_max = -1000,
-        y_min = -31000,
-        flags = 'force_placement, all_floors',
-        decoration = { 'x_farming:obsidian_wart_decor' },
-    })
-end)
+minetest.register_decoration({
+    deco_type = "simple",
+    place_on = {"default:obsidian"},
+    biomes = {"fiery","fiery_below"},
+    sidelen = 8,
+    fill_ratio = 0.1,
+    y_max = 31000,
+    y_min = -31000,
+    place_offset_y = -1,
+    flags = "force_placement",
+    decoration = "x_farming:obsidian_wart_decor",
+})

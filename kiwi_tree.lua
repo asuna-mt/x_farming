@@ -372,48 +372,20 @@ x_farming.register_crate('crate_kiwi_fruit_3', {
     }
 })
 
-minetest.register_on_mods_loaded(function()
-    local deco_place_on = {}
-    local deco_biomes = {}
-
-    -- MTG
-    if minetest.get_modpath('default') then
-        table.insert(deco_place_on, 'default:dry_dirt_with_dry_grass')
-        table.insert(deco_biomes, 'savanna')
-    end
-
-    -- Everness
-    if minetest.get_modpath('everness') then
-        table.insert(deco_place_on, 'everness:dirt_with_coral_grass')
-        table.insert(deco_biomes, 'everness:dry_dirt_with_dry_grass')
-    end
-
-    -- MCL
-    if minetest.get_modpath('mcl_core') then
-        table.insert(deco_place_on, 'mcl_core:dirt_with_grass')
-        table.insert(deco_biomes, 'Savanna')
-    end
-
-    if next(deco_place_on) and next(deco_biomes) then
-        minetest.register_decoration({
-            name = 'x_farming:kiwi_tree',
-            deco_type = 'schematic',
-            place_on = deco_place_on,
-            sidelen = 16,
-            noise_params = {
-                offset = 0,
-                scale = 0.001,
-                spread = { x = 250, y = 250, z = 250 },
-                seed = 2,
-                octaves = 3,
-                persist = 0.66
-            },
-            biomes = deco_biomes,
-            y_max = 31000,
-            y_min = 1,
-            schematic = minetest.get_modpath('x_farming') .. '/schematics/x_farming_kiwi_tree.mts',
-            flags = 'place_center_x, place_center_z',
-            rotation = 'random',
-        })
-    end
-end)
+minetest.register_decoration(asuna.features.crops.kiwi.inject_decoration({
+    deco_type = "schematic",
+    sidelen = 16,
+    noise_params = {
+        offset = -0.0005,
+        scale = 0.001,
+        spread = { x = 80, y = 80, z = 80 },
+        seed = 2,
+        octaves = 1,
+        persist = 0.66
+    },
+    y_max = 31000,
+    y_min = 5,
+    schematic = minetest.get_modpath("x_farming") .. '/schematics/x_farming_kiwi_tree.mts',
+    flags = 'place_center_x, place_center_z',
+    rotation = 'random',
+}))

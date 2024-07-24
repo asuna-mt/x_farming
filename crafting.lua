@@ -216,7 +216,7 @@ minetest.register_craft({
     output = 'x_farming:pumpkin_lantern',
     recipe = {
         { '', '', '' },
-        { '', 'x_farming:bottle_soymilk', '' },
+        { '', 'x_farming:pumpkin_block', '' },
         { '', 'group:torch', '' }
     },
 })
@@ -225,7 +225,14 @@ minetest.register_craft({
 minetest.register_craft({
     type = 'shapeless',
     output = 'x_farming:pumpkin_pie',
-    recipe = { 'x_farming:pumpkin_block', 'x_farming:flour', 'x_farming:bottle_soymilk', 'x_farming:sugar' }
+    recipe = { 'group:pumpkin', 'x_farming:flour', 'x_farming:bottle_soymilk', 'x_farming:sugar' }
+})
+
+-- pumpkin block carving
+minetest.register_craft({
+    type = 'shapeless',
+    output = 'x_farming:pumpkin_block',
+    recipe = { 'x_farming:pumpkin_fruit' }
 })
 
 --- FUELS
@@ -785,6 +792,38 @@ minetest.register_craft({
         { '', 'x_farming:barley', '' }
     }
 })
+
+minetest.register_craft({
+    output = 'x_farming:rope',
+    recipe = {
+        { '', 'group:vine', '' },
+        { '', 'group:vine', '' },
+        { '', 'group:vine', '' }
+    }
+})
+
+if minetest.get_modpath("ethereal") then
+    minetest.register_craft({
+        output = 'x_farming:rope',
+        recipe = {
+            { '', 'ethereal:vine', '' },
+            { '', 'ethereal:vine', '' },
+            { '', 'ethereal:vine', '' }
+        }
+    })
+end
+
+if minetest.get_modpath("farming") and farming.mod == "redo" then
+    minetest.register_alias_force("farming:hemp_rope","x_farming:rope")
+    minetest.register_craft({
+        output = 'x_farming:rope',
+        recipe = {
+            { '', 'farming:hemp_fibre', '' },
+            { '', 'farming:hemp_fibre', '' },
+            { '', 'farming:hemp_fibre', '' }
+        }
+    })
+end
 
 minetest.register_craft({
     output = 'x_farming:rope_fence 4',

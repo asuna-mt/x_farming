@@ -18,35 +18,41 @@
 
 local S = minetest.get_translator(minetest.get_current_modname())
 
---- Register craftitem definition - added to minetest.registered_items[name]
-minetest.register_craftitem('x_farming:bonemeal', {
-    description = S('Bonemeal - use it as a fertilizer for most plants.'),
-    inventory_image = 'x_farming_x_bonemeal_bonemeal.png',
-    on_use = function(itemstack, user, pointed_thing)
-        local result = x_farming.x_bonemeal:on_use(itemstack, user, pointed_thing)
-        return result.itemstack
-    end,
-})
+if minetest.get_modpath("bonemeal") then
+    -- Alias
+    minetest.register_alias("x_farming:bonemeal","bonemeal:bonemeal")
+else
+    --- Register craftitem definition - added to minetest.registered_items[name]
+    minetest.register_craftitem('x_farming:bonemeal', {
+        description = S('Bonemeal - use it as a fertilizer for most plants.'),
+        inventory_image = 'x_farming_x_bonemeal_bonemeal.png',
+        on_use = function(itemstack, user, pointed_thing)
+            local result = x_farming.x_bonemeal:on_use(itemstack, user, pointed_thing)
+            return result.itemstack
+        end,
+    })
+
+    -- Crafting
+    minetest.register_craft({
+        output = 'x_farming:bonemeal 4',
+        recipe = {
+            { 'bones:bones' }
+        }
+    })
+    
+    if minetest.get_modpath('default') then
+        minetest.register_craft({
+            output = 'x_farming:bonemeal 4',
+            recipe = {
+                { 'default:coral_skeleton' }
+            }
+        })
+    end
+end
 
 --
 -- Crafting
 --
-
-minetest.register_craft({
-    output = 'x_farming:bonemeal 4',
-    recipe = {
-        { 'bones:bones' }
-    }
-})
-
-if minetest.get_modpath('default') then
-    minetest.register_craft({
-        output = 'x_farming:bonemeal 4',
-        recipe = {
-            { 'default:coral_skeleton' }
-        }
-    })
-end
 
 if minetest.get_modpath('everness') then
     minetest.register_craft({

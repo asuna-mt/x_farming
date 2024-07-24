@@ -33,7 +33,7 @@ local function place_rope(pos, itemstack)
 end
 
 minetest.register_node('x_farming:rope', {
-    description = S('Rope') .. '. ' .. S('Placing rope on rope will prelong the rope downwards.'),
+    description = S('Rope\n') .. '. ' .. minetest.colorize('#d0ffd0',S('Place on rope to extend down')),
     drawtype = 'plantlike',
     walkable = false,
     paramtype = 'light',

@@ -18,6 +18,8 @@
 
 local S = minetest.get_translator(minetest.get_current_modname())
 
+local dpath = minetest.get_modpath("default")
+
 -- how often node timers for plants will tick, +/- some random value
 local function tick(pos)
     minetest.get_node_timer(pos):start(math.random(332, 572))
@@ -379,179 +381,215 @@ minetest.register_lbm({
     end,
 })
 
-minetest.register_node('x_farming:jungle_with_cocoa_sapling', {
-    description = S('Jungle Tree with Cocoa Sapling') .. '\n' .. S('Compost chance') .. ': 30%',
-    short_description = S('Jungle Tree with Cocoa Sapling'),
-    drawtype = 'plantlike',
-    tiles = { 'x_farming_junglesapling.png' },
-    inventory_image = 'x_farming_junglesapling.png',
-    wield_image = 'x_farming_junglesapling.png',
-    paramtype = 'light',
-    sunlight_propagates = true,
-    walkable = false,
-    on_timer = x_farming.grow_jungle_tree,
-    selection_box = {
-        type = 'fixed',
-        fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 }
-    },
-    groups = {
-        -- MTG
-        snappy = 2,
-        flammable = 2,
-        -- MCL
-        plant = 1,
-        non_mycelium_plant = 1,
-        deco_block = 1,
-        dig_by_water = 1,
-        dig_by_piston = 1,
-        destroy_by_lava_flow = 1,
-        compostability = 30,
-        -- ALL
-        dig_immediate = 3,
-        attached_node = 1,
-        sapling = 1,
-    },
-    _mcl_blast_resistance = 0,
-    _mcl_hardness = 0,
-    sounds = x_farming.node_sound_leaves_defaults(),
+if dpath then
+    minetest.register_alias("x_farming:jungle_tree","default:jungletree")
+    minetest.register_alias("x_farming:jungle_wood","default:junglewood")
+    minetest.register_alias("x_farming:jungle_leaves","default:jungleleaves")
+    minetest.register_alias("x_farming:jungle_with_cocoa_sapling","default:junglesapling")
+    minetest.register_alias("stairs:stair_jungle_wood","stairs:stair_junglewood")
+    minetest.register_alias("stairs:stair_inner_jungle_wood","stairs:stair_inner_junglewood")
+    minetest.register_alias("stairs:stair_outer_jungle_wood","stairs:stair_outer_junglewood")
+    minetest.register_alias("stairs:slab_jungle_wood","stairs:slab_junglewood")
 
-    on_construct = function(pos)
-        minetest.get_node_timer(pos):start(math.random(300, 1500))
-    end,
+    -- leafdecay
+    default.register_leafdecay({
+        trunks = { 'default:jungletree' },
+        leaves = {
+            'x_farming:cocoa_1',
+            'x_farming:cocoa_2',
+            'x_farming:cocoa_3',
+        },
+        radius = 2,
+    })
+else
+    --sapling
+    minetest.register_node('x_farming:jungle_with_cocoa_sapling', {
+        description = S('Jungle Tree with Cocoa Sapling') .. '\n' .. S('Compost chance') .. ': 30%',
+        short_description = S('Jungle Tree with Cocoa Sapling'),
+        drawtype = 'plantlike',
+        tiles = { 'x_farming_junglesapling.png' },
+        inventory_image = 'x_farming_junglesapling.png',
+        wield_image = 'x_farming_junglesapling.png',
+        paramtype = 'light',
+        sunlight_propagates = true,
+        walkable = false,
+        on_timer = x_farming.grow_jungle_tree,
+        selection_box = {
+            type = 'fixed',
+            fixed = { -4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16 }
+        },
+        groups = {
+            -- MTG
+            snappy = 2,
+            flammable = 2,
+            -- MCL
+            plant = 1,
+            non_mycelium_plant = 1,
+            deco_block = 1,
+            dig_by_water = 1,
+            dig_by_piston = 1,
+            destroy_by_lava_flow = 1,
+            compostability = 30,
+            -- ALL
+            dig_immediate = 3,
+            attached_node = 1,
+            sapling = 1,
+        },
+        _mcl_blast_resistance = 0,
+        _mcl_hardness = 0,
+        sounds = x_farming.node_sound_leaves_defaults(),
 
-    on_place = function(itemstack, placer, pointed_thing)
-        itemstack = x_farming.sapling_on_place(itemstack, placer, pointed_thing,
-            'x_farming:jungle_with_cocoa_sapling',
-            -- minp, maxp to be checked, relative to sapling pos
-            { x = -3, y = -5, z = -3 },
-            { x = 3, y = 31, z = 3 },
-            -- maximum interval of interior volume check
-            4)
+        on_construct = function(pos)
+            minetest.get_node_timer(pos):start(math.random(300, 1500))
+        end,
 
-        return itemstack
-    end,
-})
+        on_place = function(itemstack, placer, pointed_thing)
+            itemstack = x_farming.sapling_on_place(itemstack, placer, pointed_thing,
+                'x_farming:jungle_with_cocoa_sapling',
+                -- minp, maxp to be checked, relative to sapling pos
+                { x = -3, y = -5, z = -3 },
+                { x = 3, y = 31, z = 3 },
+                -- maximum interval of interior volume check
+                4)
 
--- trunk
-minetest.register_node('x_farming:jungle_tree', {
-    description = S('Jungle Tree'),
-    short_description = S('Jungle Tree'),
-    tiles = { 'x_farming_jungle_tree_top.png', 'x_farming_jungle_tree_top.png', 'x_farming_jungle_tree.png' },
-    paramtype2 = 'facedir',
-    is_ground_content = false,
-    groups = {
-        -- MTG
-        choppy = 2,
-        oddly_breakable_by_hand = 1,
-        -- MCL
-        handy = 1,
-        axey = 1,
-        building_block = 1,
-        material_wood = 1,
-        fire_encouragement = 5,
-        fire_flammability = 5,
-        -- ALL
-        tree = 1,
-        flammable = 2,
-    },
-    _mcl_blast_resistance = 2,
-    _mcl_hardness = 2,
-    sounds = x_farming.node_sound_wood_defaults(),
+            return itemstack
+        end,
+    })
 
-    on_place = minetest.rotate_node
-})
+    -- trunk
+    minetest.register_node('x_farming:jungle_tree', {
+        description = S('Jungle Tree'),
+        short_description = S('Jungle Tree'),
+        tiles = { 'x_farming_jungle_tree_top.png', 'x_farming_jungle_tree_top.png', 'x_farming_jungle_tree.png' },
+        paramtype2 = 'facedir',
+        is_ground_content = false,
+        groups = {
+            -- MTG
+            choppy = 2,
+            oddly_breakable_by_hand = 1,
+            -- MCL
+            handy = 1,
+            axey = 1,
+            building_block = 1,
+            material_wood = 1,
+            fire_encouragement = 5,
+            fire_flammability = 5,
+            -- ALL
+            tree = 1,
+            flammable = 2,
+        },
+        _mcl_blast_resistance = 2,
+        _mcl_hardness = 2,
+        sounds = x_farming.node_sound_wood_defaults(),
 
--- leaves
-minetest.register_node('x_farming:jungle_leaves', {
-    description = S('Jungle Tree Leaves') .. '\n' .. S('Compost chance') .. ': 30%',
-    short_description = S('Jungle Tree Leaves'),
-    drawtype = 'allfaces_optional',
-    waving = 1,
-    tiles = { 'x_farming_jungleleaves.png' },
-    special_tiles = { 'x_farming_jungleleaves.png' },
-    paramtype = 'light',
-    is_ground_content = false,
-    groups = {
-        -- MTG
-        snappy = 3,
-        leafdecay = 3,
-        -- MCL
-        handy = 1,
-        hoey = 1,
-        shearsy = 1,
-        swordy = 1,
-        dig_by_piston = 1,
-        fire_encouragement = 30,
-        fire_flammability = 60,
-        deco_block = 1,
-        compostability = 30,
-        -- ALL
-        flammable = 2,
-        leaves = 1,
-    },
-    _mcl_shears_drop = true,
-    _mcl_blast_resistance = 0.2,
-    _mcl_hardness = 0.2,
-    _mcl_silk_touch_drop = true,
-    drop = {
-        max_items = 1,
-        items = {
-            {
-                -- player will get sapling with 1/20 chance
-                items = { 'x_farming:jungle_with_cocoa_sapling' },
-                rarity = 20,
-            },
-            {
-                -- player will get leaves only if he get no saplings,
-                -- this is because max_items is 1
-                items = { 'x_farming:jungle_leaves' },
+        on_place = minetest.rotate_node
+    })
+
+    -- leaves
+    minetest.register_node('x_farming:jungle_leaves', {
+        description = S('Jungle Tree Leaves') .. '\n' .. S('Compost chance') .. ': 30%',
+        short_description = S('Jungle Tree Leaves'),
+        drawtype = 'allfaces_optional',
+        waving = 1,
+        tiles = { 'x_farming_jungleleaves.png' },
+        special_tiles = { 'x_farming_jungleleaves.png' },
+        paramtype = 'light',
+        is_ground_content = false,
+        groups = {
+            -- MTG
+            snappy = 3,
+            leafdecay = 3,
+            -- MCL
+            handy = 1,
+            hoey = 1,
+            shearsy = 1,
+            swordy = 1,
+            dig_by_piston = 1,
+            fire_encouragement = 30,
+            fire_flammability = 60,
+            deco_block = 1,
+            compostability = 30,
+            -- ALL
+            flammable = 2,
+            leaves = 1,
+        },
+        _mcl_shears_drop = true,
+        _mcl_blast_resistance = 0.2,
+        _mcl_hardness = 0.2,
+        _mcl_silk_touch_drop = true,
+        drop = {
+            max_items = 1,
+            items = {
+                {
+                    -- player will get sapling with 1/20 chance
+                    items = { 'x_farming:jungle_with_cocoa_sapling' },
+                    rarity = 20,
+                },
+                {
+                    -- player will get leaves only if he get no saplings,
+                    -- this is because max_items is 1
+                    items = { 'x_farming:jungle_leaves' },
+                }
             }
-        }
-    },
-    sounds = x_farming.node_sound_leaves_defaults(),
+        },
+        sounds = x_farming.node_sound_leaves_defaults(),
 
-    after_place_node = x_farming.after_place_leaves,
-})
+        after_place_node = x_farming.after_place_leaves,
+    })
 
--- leafdecay
-x_farming.register_leafdecay({
-    trunks = { 'x_farming:jungle_tree' },
-    leaves = {
-        'x_farming:cocoa_3',
-        'x_farming:jungle_leaves'
-    },
-    radius = 2,
-})
+    -- leafdecay
+    x_farming.register_leafdecay({
+        trunks = { 'x_farming:jungle_tree' },
+        leaves = {
+            'x_farming:jungle_leaves'
+        },
+        radius = 2,
+    })
 
--- planks
-minetest.register_node('x_farming:jungle_wood', {
-    description = S('Jungle Wood Planks'),
-    short_description = S('Jungle Wood Planks'),
-    paramtype2 = 'facedir',
-    place_param2 = 0,
-    tiles = { 'x_farming_jungle_wood.png' },
-    is_ground_content = false,
-    groups = {
-        -- MTG
-        choppy = 2,
-        oddly_breakable_by_hand = 2,
-        -- Everness
-        everness_wood = 1,
-        -- MCL
-        handy = 1,
-        axey = 1,
-        building_block = 1,
-        material_wood = 1,
-        fire_encouragement = 5,
-        fire_flammability = 20,
-        -- ALL
-        flammable = 3,
-        wood = 1,
-    },
-    _mcl_blast_resistance = 3,
-    _mcl_hardness = 2,
-    sounds = x_farming.node_sound_wood_defaults(),
-})
+    -- planks
+    minetest.register_node('x_farming:jungle_wood', {
+        description = S('Jungle Wood Planks'),
+        short_description = S('Jungle Wood Planks'),
+        paramtype2 = 'facedir',
+        place_param2 = 0,
+        tiles = { 'x_farming_jungle_wood.png' },
+        is_ground_content = false,
+        groups = {
+            -- MTG
+            choppy = 2,
+            oddly_breakable_by_hand = 2,
+            -- Everness
+            everness_wood = 1,
+            -- MCL
+            handy = 1,
+            axey = 1,
+            building_block = 1,
+            material_wood = 1,
+            fire_encouragement = 5,
+            fire_flammability = 20,
+            -- ALL
+            flammable = 3,
+            wood = 1,
+        },
+        _mcl_blast_resistance = 3,
+        _mcl_hardness = 2,
+        sounds = x_farming.node_sound_wood_defaults(),
+    })
+
+    -- Stairs
+    if minetest.global_exists('stairs') and minetest.get_modpath('stairs') then
+        stairs.register_stair_and_slab(
+            'jungle_wood',
+            'x_farming:jungle_wood',
+            { choppy = 2, oddly_breakable_by_hand = 2, flammable = 2 },
+            { 'x_farming_jungle_wood.png' },
+            'Jungle Wooden Stair',
+            'Jungle Wooden Slab',
+            x_farming.node_sound_wood_defaults(),
+            false
+        )
+    end
+end
 
 -- Cookie
 local cookie_def = {
@@ -605,20 +643,6 @@ end
 
 minetest.register_craftitem('x_farming:chocolate', chocolate_def)
 
--- Stairs
-if minetest.global_exists('stairs') and minetest.get_modpath('stairs') then
-    stairs.register_stair_and_slab(
-        'jungle_wood',
-        'x_farming:jungle_wood',
-        { choppy = 2, oddly_breakable_by_hand = 2, flammable = 2 },
-        { 'x_farming_jungle_wood.png' },
-        'Jungle Wooden Stair',
-        'Jungle Wooden Slab',
-        x_farming.node_sound_wood_defaults(),
-        false
-    )
-end
-
 if minetest.get_modpath('mcl_stairs') then
     mcl_stairs.register_stair_and_slab(
         'x_farming_jungle_wood',
@@ -645,43 +669,52 @@ x_farming.register_crate('crate_cocoa_bean_3', {
     }
 })
 
-minetest.register_on_mods_loaded(function()
-    local deco_place_on = {}
-    local deco_biomes = {}
-    local deco_fill_ratio = 0.025
+local c_jungletree = minetest.get_content_id("default:jungletree")
+local c_cocoa2 = minetest.get_content_id("x_farming:cocoa_2")
+local c_cocoa3 = minetest.get_content_id("x_farming:cocoa_3")
 
-    -- MTG
-    if minetest.get_modpath('default') then
-        table.insert(deco_place_on, 'default:dirt_with_rainforest_litter')
-        table.insert(deco_biomes, 'rainforest')
-    end
+abdecor.register_advanced_decoration("x_farming_cocoa",{
+    target = {
+        place_on = "default:jungletree",
+        fill_ratio = 0.0075,
+        biomes = asuna.features.crops.cocoa,
+        y_min = 6,
+        y_max = 31000,
+    },
+    fn = function(mapgen)
+        -- Get provided values
+        local pos = mapgen.pos
+        local va = mapgen.voxelarea
+        local vdata = mapgen.data
+        local vparam2 = mapgen.param2
 
-    -- Everness
-    if minetest.get_modpath('everness') then
-        table.insert(deco_place_on, 'everness:dirt_with_grass_1')
-        table.insert(deco_biomes, 'everness:bamboo_forest')
-        deco_fill_ratio = deco_fill_ratio / 20
-    end
+        -- Get stride values and adjust position
+        local ystride = va.ystride
+        local zstride = va.zstride
+        pos = va:index(pos.x,pos.y + 2,pos.z)
 
-    -- MCL
-    if minetest.get_modpath('mcl_core') then
-        table.insert(deco_place_on, 'mcl_core:dirt_with_grass')
-        table.insert(deco_biomes, 'Jungle')
-    end
-
-    if next(deco_place_on) and next(deco_biomes) then
-        minetest.register_decoration({
-            name = 'x_farming:jungle_tree',
-            deco_type = 'schematic',
-            place_on = deco_place_on,
-            sidelen = 80,
-            fill_ratio = deco_fill_ratio,
-            biomes = deco_biomes,
-            y_max = 31000,
-            y_min = 1,
-            schematic = minetest.get_modpath('x_farming') .. '/schematics/x_farming_jungle_tree_with_cocoa.mts',
-            flags = 'place_center_x, place_center_z',
-            rotation = '0',
-        })
-    end
-end)
+        -- Get adjacent tree trunk direction
+        local cardinal = {
+            zstride,
+            1,
+            -zstride,
+            -1,
+        }
+        for i = 1, 4 do
+            local treepos = pos + cardinal[i]
+            if vdata[treepos] == c_jungletree then
+                for j = 2, 6 do
+                    pos = pos + ystride
+                    treepos = treepos + ystride
+                    if j % 2 == 0 and vdata[treepos] == c_jungletree and vdata[pos] == minetest.CONTENT_AIR then
+                        vdata[pos] = (pos + 2 * j) % 7 == 0 and c_cocoa2 or c_cocoa3
+                        vparam2[pos] = i - 1
+                    end
+                end
+            end
+        end
+    end,
+    flags = {
+        param2 = true,
+    },
+})

@@ -66,52 +66,24 @@ x_farming.register_crate('crate_strawberry_3', {
     }
 })
 
-minetest.register_on_mods_loaded(function()
-    local deco_place_on = {}
-    local deco_biomes = {}
-
-    -- MTG
-    if minetest.get_modpath('default') then
-        table.insert(deco_place_on, 'default:dirt_with_coniferous_litter')
-        table.insert(deco_biomes, 'coniferous_forest')
-    end
-
-    -- Everness
-    if minetest.get_modpath('everness') then
-        table.insert(deco_place_on, 'everness:dirt_with_crystal_grass')
-        table.insert(deco_biomes, 'everness:crystal_forest')
-    end
-
-    -- MCL
-    if minetest.get_modpath('mcl_core') then
-        table.insert(deco_place_on, 'mcl_core:podzol')
-        table.insert(deco_biomes, 'MegaSpruceTaiga')
-        table.insert(deco_biomes, 'MegaTaiga')
-    end
-
-    if next(deco_place_on) and next(deco_biomes) then
-        minetest.register_decoration({
-            name = 'x_farming:strawberry',
-            deco_type = 'simple',
-            place_on = deco_place_on,
-            sidelen = 16,
-            noise_params = {
-                offset = 0,
-                scale = 0.01,
-                spread = { x = 100, y = 100, z = 100 },
-                seed = 2,
-                octaves = 3,
-                persist = 0.7
-            },
-            biomes = deco_biomes,
-            y_max = 30,
-            y_min = 1,
-            decoration = {
-                'x_farming:strawberry_1',
-                'x_farming:strawberry_2',
-                'x_farming:strawberry_3',
-                'x_farming:strawberry_4',
-            },
-        })
-    end
-end)
+minetest.register_decoration(asuna.features.crops.strawberry.inject_decoration({
+    deco_type = "simple",
+    sidelen = 8,
+    noise_params = {
+      offset = -0.4125,
+      scale = 0.3575,
+      spread = {x = 14, y = 14, z = 14},
+      seed = 1114,
+      octaves = 2,
+      persist = 0.62,
+      lacunarity = 0.675,
+    },
+    y_max = 31000,
+    y_min = 5,
+    decoration = {
+        "x_farming:strawberry_1",
+        "x_farming:strawberry_2",
+        "x_farming:strawberry_3",
+        "x_farming:strawberry_4",
+    },
+  }))
