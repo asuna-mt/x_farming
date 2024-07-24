@@ -58,4 +58,65 @@ if minetest.get_modpath('farming') then
             crate_item = 'farming:cotton'
         }
     })
+
+    if farming.mod == "redo" then
+        -- Register crates for Farming Redo crops
+        for name,crop in pairs({
+            Artichoke = "artichoke",
+            Asparagus = "asparagus",
+            Barley = "barley",
+            Beans = "beans",
+            Beetroot = "beetroot",
+            Blackberry = "blackberry",
+            Blueberry = "blueberry",
+            Cabbage = "cabbage",
+            Carrot = "carrot",
+            Chili = "chili_pepper",
+            Cocoa = "cocoa_beans",
+            Coffee = "coffee_beans",
+            Corn = "corn",
+            --Cotton = "cotton",
+            Cucumber = "cucumber",
+            Eggplant = "eggplant",
+            Garlic = "garlic",
+            Ginger = "ginger",
+            Grapes = "grapes",
+            Hemp = "hemp_leaf",
+            Lettuce = "lettuce",
+            Melon = "melon",
+            Mint = "mint_leaf",
+            Oat = "oat",
+            Onion = "onion",
+            Parsley = "parsley",
+            Peas = "pea_pod",
+            Pepper = "pepper",
+            ["Yellow Pepper"] = "pepper_yellow",
+            ["Red Pepper"] = "pepper_red",
+            Pineapple = "pineapple",
+            Potato = "potato",
+            Pumpkin = "pumpkin",
+            Raspberry = "raspberry",
+            Rhubarb = "rhubarb",
+            Rice = "rice",
+            Rye = "rye",
+            Soy = "soy_pod",
+            Spinach = "spinach",
+            Strawberry = "strawberry",
+            Sunflower = "sunflower",
+            Tomato = "tomato",
+            Vanilla = "vanilla",
+            -- "Wheat",
+        }) do
+            if minetest.registered_items["farming:" .. crop] then
+                x_farming.register_crate("crate_" .. crop .. "_3", {
+                    description = name .. " Crate",
+                    short_description = name .. " Crate",
+                    tiles = { "x_farming_crate_" .. crop .. "_3.png" },
+                    _custom = {
+                        crate_item = "farming:" .. crop,
+                    },
+                })
+            end
+        end
+    end
 end
