@@ -1178,55 +1178,72 @@ end
 for _, def in ipairs(pillow_colors) do
     local color_group = 'color_' .. def.name
 
-    minetest.register_node('x_farming:pillow_' .. def.name, {
-        description = S('Pillow') .. ' ' .. def.description,
-        short_description = S('Pillow') .. ' ' .. def.description,
-        tiles = { 'x_farming_pillow_' .. def.name .. '.png' },
-        is_ground_content = false,
-        groups = {
-            -- MTG
-            snappy = 2,
-            choppy = 2,
-            oddly_breakable_by_hand = 3,
-            flammable = 3,
-            pillow = 1,
-            [color_group] = 1,
-            -- MCL
-            handy = 1,
-            shearsy_wool = 1,
-            fire_encouragement = 30,
-            fire_flammability = 60,
-            building_block = 1,
-            [def.mcl_group[1]] = 1,
-        },
-        _mcl_hardness = 0.8,
-        _mcl_blast_resistance = 0.8,
-        sounds = x_farming.node_sound_pillow_defaults(),
-    })
+    if minetest.registered_nodes["wool:" .. def.name] then
+        minetest.register_alias("x_farming:pillow_" .. def.name,"wool:" .. def.name)
+        minetest.override_item("wool:" .. def.name,{
+            tiles = {"x_farming_pillow_" .. def.name .. ".png"},
+            groups = {
+                -- MTG
+                snappy = 2,
+                choppy = 2,
+                oddly_breakable_by_hand = 3,
+                flammable = 3,
+                wool = 1,
+                pillow = 1,
+                [color_group] = 1,
+            },
+        })
+    else
+        minetest.register_node('x_farming:pillow_' .. def.name, {
+            description = S('Pillow') .. ' ' .. def.description,
+            short_description = S('Pillow') .. ' ' .. def.description,
+            tiles = { 'x_farming_pillow_' .. def.name .. '.png' },
+            is_ground_content = false,
+            groups = {
+                -- MTG
+                snappy = 2,
+                choppy = 2,
+                oddly_breakable_by_hand = 3,
+                flammable = 3,
+                pillow = 1,
+                [color_group] = 1,
+                -- MCL
+                handy = 1,
+                shearsy_wool = 1,
+                fire_encouragement = 30,
+                fire_flammability = 60,
+                building_block = 1,
+                [def.mcl_group[1]] = 1,
+            },
+            _mcl_hardness = 0.8,
+            _mcl_blast_resistance = 0.8,
+            sounds = x_farming.node_sound_pillow_defaults(),
+        })
 
-    if minetest.get_modpath('mcl_dye') and x_farming.candle_colors[def.name] then
-        local mcl_groups = {}
-        local color_def = x_farming.candle_colors[def.name]
+        if minetest.get_modpath('mcl_dye') and x_farming.candle_colors[def.name] then
+            local mcl_groups = {}
+            local color_def = x_farming.candle_colors[def.name]
 
-        for key, value in pairs(color_def.mcl_groups) do
-            table.insert(mcl_groups, key)
+            for key, value in pairs(color_def.mcl_groups) do
+                table.insert(mcl_groups, key)
+            end
+
+            local mcl_craft_dye = 'group:dye,' .. table.concat(mcl_groups, ',')
+
+            minetest.register_craft({
+                type = 'shapeless',
+                output = 'x_farming:pillow_' .. def.name,
+                recipe = { mcl_craft_dye, 'group:pillow' },
+            })
         end
 
-        local mcl_craft_dye = 'group:dye,' .. table.concat(mcl_groups, ',')
-
-        minetest.register_craft({
-            type = 'shapeless',
-            output = 'x_farming:pillow_' .. def.name,
-            recipe = { mcl_craft_dye, 'group:pillow' },
-        })
-    end
-
-    if minetest.get_modpath('dye') then
-        minetest.register_craft({
-            type = 'shapeless',
-            output = 'x_farming:pillow_' .. def.name,
-            recipe = { 'group:dye,' .. color_group, 'group:pillow' },
-        })
+        if minetest.get_modpath('dye') then
+            minetest.register_craft({
+                type = 'shapeless',
+                output = 'x_farming:pillow_' .. def.name,
+                recipe = { 'group:dye,' .. color_group, 'group:pillow' },
+            })
+        end
     end
 end
 

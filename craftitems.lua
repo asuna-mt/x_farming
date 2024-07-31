@@ -58,12 +58,16 @@ end
 
 minetest.register_craftitem('x_farming:bread', bread_def)
 
--- String
-minetest.register_craftitem('x_farming:string', {
-    description = S('Cotton String'),
-    inventory_image = 'x_farming_string.png',
-    groups = { flammable = 2 },
-})
+-- String(
+if minetest.get_modpath("farming") then
+    minetest.register_alias("x_farming:string","farming:string")
+else
+    minetest.register_craftitem('x_farming:string', {
+        description = S('Cotton String'),
+        inventory_image = 'x_farming_string.png',
+        groups = { flammable = 2 },
+    })
+end
 
 -- Soup Bowl
 minetest.register_craftitem('x_farming:bowl', {

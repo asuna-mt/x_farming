@@ -20,7 +20,6 @@ local S = minetest.get_translator(minetest.get_current_modname())
 
 if minetest.get_modpath("farming") then
     minetest.register_alias("x_farming:cotton","farming:cotton")
-    minetest.register_alias("x_farming:string","farming:string")
 else
     -- COTTON
     x_farming.register_plant('x_farming:cotton', {
