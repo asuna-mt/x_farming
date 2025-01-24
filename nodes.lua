@@ -740,6 +740,7 @@ for i = 1, 4 do
             -- MTG
             snappy = 3,
             candle = i == 1 and 1 or nil,
+            candle_x_farming = i == 1 and 1 or nil,
             attached_node = 1,
             not_in_creative_inventory = i == 1 and 0 or 1,
             -- MCL
@@ -1055,7 +1056,7 @@ for color_id, color_def in pairs(x_farming.candle_colors) do
     minetest.register_craft({
         type = 'shapeless',
         output = 'x_farming:candle_' .. color_id .. '_off_1',
-        recipe = { 'group:candle', craft_dye },
+        recipe = { 'group:candle_x_farming', craft_dye },
     })
 
     if minetest.get_modpath('mcl_dye') then
@@ -1070,7 +1071,7 @@ for color_id, color_def in pairs(x_farming.candle_colors) do
         minetest.register_craft({
             type = 'shapeless',
             output = 'x_farming:candle_' .. color_id .. '_off_1',
-            recipe = { 'group:candle', mcl_craft_dye },
+            recipe = { 'group:candle_x_farming', mcl_craft_dye },
         })
     end
 end
