@@ -70,19 +70,27 @@ else
 end
 
 -- Soup Bowl
-minetest.register_craftitem('x_farming:bowl', {
-    description = S('Empty Soup Bowl'),
-    inventory_image = 'x_farming_bowl.png',
-})
+if minetest.registered_items["farming:bowl"] then
+    minetest.register_alias("x_farming:bowl","farming:bowl")
+else
+    minetest.register_craftitem('x_farming:bowl', {
+        description = S('Empty Soup Bowl'),
+        inventory_image = 'x_farming_bowl.png',
+    })
+end
 
 -- Bottle Water
-minetest.register_craftitem('x_farming:bottle_water', {
-    description = S('Water Bottle'),
-    tiles = { 'x_farming_bottle_water.png' },
-    inventory_image = 'x_farming_bottle_water.png',
-    wield_image = 'x_farming_bottle_water.png',
-    groups = { vessel = 1 },
-})
+if minetest.registered_items["bottles:bottle_of_water"] then
+    minetest.register_alias("x_farming:bottle_water","bottles:bottle_of_water")
+else
+    minetest.register_craftitem('x_farming:bottle_water', {
+        description = S('Water Bottle'),
+        tiles = { 'x_farming_bottle_water.png' },
+        inventory_image = 'x_farming_bottle_water.png',
+        wield_image = 'x_farming_bottle_water.png',
+        groups = { vessel = 1 },
+    })
+end
 
 -- Bottle Honey
 local bottle_honey_def = {

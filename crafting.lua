@@ -287,7 +287,9 @@ minetest.register_craft({
 })
 
 -- Bottle Water
-if x_farming.vessels then
+if minetest.get_modpath("bottles_default") then
+    -- do nothing, water bottles are implemented via Filled Bottles mod
+elseif x_farming.vessels then
     minetest.register_craft({
         type = 'shapeless',
         output = 'x_farming:bottle_water 5',
