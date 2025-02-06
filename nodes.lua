@@ -1182,7 +1182,6 @@ for _, def in ipairs(pillow_colors) do
     if minetest.registered_nodes["wool:" .. def.name] then
         minetest.register_alias("x_farming:pillow_" .. def.name,"wool:" .. def.name)
         minetest.override_item("wool:" .. def.name,{
-            tiles = {"x_farming_pillow_" .. def.name .. ".png"},
             groups = {
                 -- MTG
                 snappy = 2,
