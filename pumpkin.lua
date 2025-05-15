@@ -62,16 +62,12 @@ local pumpkin_fruit_def = {
     _mcl_blast_resistance = 1,
     _mcl_hardness = 1,
     drop = {
-        max_items = 4, -- Maximum number of items to drop.
+        max_items = 1, -- Maximum number of items to drop.
         items = { -- Choose max_items randomly from this list.
             {
                 items = { 'x_farming:pumpkin' }, -- Items to drop.
                 rarity = 1, -- Probability of dropping is 1 / rarity.
             },
-            {
-                items = { 'x_farming:pumpkin' }, -- Items to drop.
-                rarity = 2, -- Probability of dropping is 1 / rarity.
-            }
         },
     },
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
