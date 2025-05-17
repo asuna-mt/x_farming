@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- STRAWBERRY
 x_farming.register_plant('x_farming:strawberry', {
@@ -35,7 +35,7 @@ x_farming.register_plant('x_farming:strawberry', {
 -- needed
 local strawberry_def = {
     description = S('Strawberry') .. '\n' .. S('Compost chance') .. ': 30%\n'
-        .. minetest.colorize(x_farming.colors.brown, S('Hunger') .. ': 2'),
+        .. core.colorize(x_farming.colors.brown, S('Hunger') .. ': 2'),
     groups = {
         -- X Farming
         compost = 30,
@@ -45,16 +45,16 @@ local strawberry_def = {
     short_description = S('Strawberry'),
 }
 
-if minetest.get_modpath('farming') then
-    strawberry_def.on_use = minetest.item_eat(2)
+if core.get_modpath('farming') then
+    strawberry_def.on_use = core.item_eat(2)
 end
 
-if minetest.get_modpath('mcl_farming') then
-    strawberry_def.on_place = minetest.item_eat(2)
-    strawberry_def.on_secondary_use = minetest.item_eat(2)
+if core.get_modpath('mcl_farming') then
+    strawberry_def.on_place = core.item_eat(2)
+    strawberry_def.on_secondary_use = core.item_eat(2)
 end
 
-minetest.override_item('x_farming:strawberry', strawberry_def)
+core.override_item('x_farming:strawberry', strawberry_def)
 
 ---crate
 x_farming.register_crate('crate_strawberry_3', {
@@ -66,7 +66,7 @@ x_farming.register_crate('crate_strawberry_3', {
     }
 })
 
-minetest.register_decoration(asuna.features.crops.strawberry.inject_decoration({
+core.register_decoration(asuna.features.crops.strawberry.inject_decoration({
     deco_type = "simple",
     sidelen = 8,
     noise_params = {

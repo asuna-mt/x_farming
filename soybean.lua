@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- SOYBEAN
 x_farming.register_plant('x_farming:soybean', {
@@ -33,7 +33,7 @@ x_farming.register_plant('x_farming:soybean', {
 })
 
 -- needed
-minetest.override_item('x_farming:soybean', {
+core.override_item('x_farming:soybean', {
     description = S('Soybean') .. '\n' .. S('Compost chance') .. ': 65%',
     short_description = S('Soybean'),
     groups = {
@@ -44,7 +44,7 @@ minetest.override_item('x_farming:soybean', {
     },
 })
 
-minetest.register_craftitem('x_farming:bottle_soymilk', {
+core.register_craftitem('x_farming:bottle_soymilk', {
     description = S('Soymilk Bottle'),
     short_description = S('Soymilk Bottle'),
     tiles = { 'x_farming_bottle_soymilk.png' },
@@ -54,7 +54,7 @@ minetest.register_craftitem('x_farming:bottle_soymilk', {
     sounds = x_farming.node_sound_thin_glass_defaults(),
 })
 
-minetest.register_craftitem('x_farming:bottle_soymilk_raw', {
+core.register_craftitem('x_farming:bottle_soymilk_raw', {
     description = S('Raw Soymilk Bottle'),
     short_description = S('Raw Soymilk Bottle'),
     tiles = { 'x_farming_bottle_soymilk_raw.png' },
@@ -63,7 +63,7 @@ minetest.register_craftitem('x_farming:bottle_soymilk_raw', {
     groups = { vessel = 1, dig_immediate = 3, attached_node = 1 },
 })
 
-minetest.register_craft({
+core.register_craft({
     type = 'shapeless',
     output = 'x_farming:bottle_soymilk_raw',
     recipe = {
@@ -86,7 +86,7 @@ x_farming.register_crate('crate_soybean_3', {
     }
 })
 
-minetest.register_decoration(asuna.features.crops.soybean.inject_decoration({
+core.register_decoration(asuna.features.crops.soybean.inject_decoration({
     deco_type = "simple",
     sidelen = 8,
     noise_params = {

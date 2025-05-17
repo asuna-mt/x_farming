@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- BARLEY
 x_farming.register_plant('x_farming:barley', {
@@ -45,16 +45,16 @@ local override_def = {
     _mcl_blast_resistance = 0,
 }
 
-minetest.override_item('x_farming:barley', override_def)
+core.override_item('x_farming:barley', override_def)
 
 -- Registered before the stairs so the stairs get fuel recipes.
-minetest.register_craft({
+core.register_craft({
     type = 'fuel',
     recipe = 'x_farming:barley_stack',
     burntime = 3,
 })
 
-if minetest.get_modpath('stairs') then
+if core.get_modpath('stairs') then
     do
         local recipe = 'x_farming:barley'
         local groups = { snappy = 3, flammable = 4 }
@@ -82,7 +82,7 @@ x_farming.register_crate('crate_barley_3', {
     }
 })
 
-minetest.register_decoration(asuna.features.crops.barley.inject_decoration({
+core.register_decoration(asuna.features.crops.barley.inject_decoration({
     deco_type = "simple",
     sidelen = 8,
     noise_params = {

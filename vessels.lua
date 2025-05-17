@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -20,11 +20,11 @@
 -- ----------------------
 -- Originally by Vanessa Ezekowitz (LGPLv2.1+)
 -- Modified by Perttu Ahola <celeron55@gmail.com> (LGPLv2.1+)
--- Various Minetest developers and contributors (LGPLv2.1+)
+-- Various Luanti developers and contributors (LGPLv2.1+)
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
-minetest.register_node('x_farming:glass_bottle', {
+core.register_node('x_farming:glass_bottle', {
     description = S('Empty Glass Bottle'),
     drawtype = 'plantlike',
     tiles = { 'x_farming_vessels_glass_bottle.png' },
@@ -41,7 +41,7 @@ minetest.register_node('x_farming:glass_bottle', {
     sounds = x_farming.node_sound_thin_glass_defaults(),
 })
 
-minetest.register_craft({
+core.register_craft({
     output = 'x_farming:glass_bottle 10',
     recipe = {
         { 'default:glass', '', 'default:glass' },
@@ -50,7 +50,7 @@ minetest.register_craft({
     }
 })
 
-minetest.register_craft({
+core.register_craft({
     output = 'x_farming:glass_bottle 10',
     recipe = {
         { 'group:glass', '', 'group:glass' },

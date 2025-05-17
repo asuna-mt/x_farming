@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,10 +16,10 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
-if minetest.get_modpath("farming") then
-    minetest.register_alias("x_farming:cotton","farming:cotton")
+if core.get_modpath("farming") then
+    core.register_alias("x_farming:cotton","farming:cotton")
 else
     -- COTTON
     x_farming.register_plant('x_farming:cotton', {
@@ -47,9 +47,9 @@ else
         }
     }
 
-    minetest.override_item('x_farming:cotton', cotton_def)
+    core.override_item('x_farming:cotton', cotton_def)
 
-    minetest.register_decoration(asuna.features.crops.cotton.inject_decoration({
+    core.register_decoration(asuna.features.crops.cotton.inject_decoration({
         deco_type = "simple",
         sidelen = 8,
         noise_params = {

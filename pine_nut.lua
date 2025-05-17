@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,22 +16,22 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- Minetest Game compatibility
-if minetest.get_modpath("default") then
+if core.get_modpath("default") then
     -- Aliases
-    minetest.register_alias("x_farming:pine_nut_tree","default:pine_tree")
-    minetest.register_alias("x_farming:pine_nut_leaves","default:pine_needles")
-    minetest.register_alias("x_farming:pine_nut_sapling","default:pine_sapling")
-    minetest.register_alias("x_farming:pine_nut_wood","default:pine_wood")
-    minetest.register_alias("stairs:stair_pine_nut_wood","stairs:stair_pine_wood")
-    minetest.register_alias("stairs:stair_inner_pine_nut_wood","stairs:stair_inner_pine_wood")
-    minetest.register_alias("stairs:stair_outer_pine_nut_wood","stairs:stair_outer_pine_wood")
-    minetest.register_alias("stairs:slab_pine_nut_wood","slab:stair_pine_wood")
+    core.register_alias("x_farming:pine_nut_tree","default:pine_tree")
+    core.register_alias("x_farming:pine_nut_leaves","default:pine_needles")
+    core.register_alias("x_farming:pine_nut_sapling","default:pine_sapling")
+    core.register_alias("x_farming:pine_nut_wood","default:pine_wood")
+    core.register_alias("stairs:stair_pine_nut_wood","stairs:stair_pine_wood")
+    core.register_alias("stairs:stair_inner_pine_nut_wood","stairs:stair_inner_pine_wood")
+    core.register_alias("stairs:stair_outer_pine_nut_wood","stairs:stair_outer_pine_wood")
+    core.register_alias("stairs:slab_pine_nut_wood","slab:stair_pine_wood")
 else
     -- trunk
-    minetest.register_node('x_farming:pine_nut_tree', {
+    core.register_node('x_farming:pine_nut_tree', {
         description = S('Pine Nut Tree'),
         short_description = S('Pine Nut Tree'),
         tiles = { 'x_farming_pine_nut_tree_top.png', 'x_farming_pine_nut_tree_top.png', 'x_farming_pine_nut_tree.png' },
@@ -55,11 +55,11 @@ else
         _mcl_blast_resistance = 2,
         _mcl_hardness = 2,
         sounds = x_farming.node_sound_wood_defaults(),
-        on_place = minetest.rotate_node
+        on_place = core.rotate_node
     })
 
     -- leaves
-    minetest.register_node('x_farming:pine_nut_leaves', {
+    core.register_node('x_farming:pine_nut_leaves', {
         description = S('Pine Nut Needles') .. '\n' .. S('Compost chance') .. ': 30%',
         short_description = S('Pine Nut Needles'),
         drawtype = 'allfaces_optional',
@@ -110,7 +110,7 @@ else
     })
 
     -- sapling
-    minetest.register_node('x_farming:pine_nut_sapling', {
+    core.register_node('x_farming:pine_nut_sapling', {
         description = S('Pine Nut Sapling') .. '\n' .. S('Compost chance') .. ': 30%',
         short_description = S('Pine Nut Sapling'),
         drawtype = 'plantlike',
@@ -147,7 +147,7 @@ else
         sounds = x_farming.node_sound_leaves_defaults(),
 
         on_construct = function(pos)
-            minetest.get_node_timer(pos):start(math.random(300, 1500))
+            core.get_node_timer(pos):start(math.random(300, 1500))
         end,
 
         on_place = function(itemstack, placer, pointed_thing)
@@ -164,7 +164,7 @@ else
         end,
     })
 
-    if minetest.global_exists('stairs') and minetest.get_modpath('stairs') then
+    if core.global_exists('stairs') and core.get_modpath('stairs') then
         stairs.register_stair_and_slab(
             'pine_nut_wood',
             'x_farming:pine_nut_wood',
@@ -177,7 +177,7 @@ else
         )
     end
     
-    if minetest.get_modpath('mcl_stairs') then
+    if core.get_modpath('mcl_stairs') then
         mcl_stairs.register_stair_and_slab(
             'pine_nut_wood',
             'x_farming:pine_nut_wood',
@@ -194,7 +194,7 @@ else
     end
 
     -- planks
-    minetest.register_node('x_farming:pine_nut_wood', {
+    core.register_node('x_farming:pine_nut_wood', {
         description = S('Pine Nut Wood Planks'),
         short_description = S('Pine Nut Wood Planks'),
         paramtype2 = 'facedir',
@@ -225,8 +225,8 @@ else
 end
 
 -- Ethereal compatibility
-if minetest.get_modpath("ethereal") then
-    minetest.override_item("default:pine_needles",{
+if core.get_modpath("ethereal") then
+    core.override_item("default:pine_needles",{
         drop = {
             max_items = 1,
             items = {
@@ -235,7 +235,7 @@ if minetest.get_modpath("ethereal") then
             }
         },
     })
-    minetest.register_alias_force("ethereal:pine_nuts","x_farming:pine_nut")
+    core.register_alias_force("ethereal:pine_nuts","x_farming:pine_nut")
 end
 
 -- fruit
@@ -284,22 +284,22 @@ local pine_nut_def = {
     sounds = x_farming.node_sound_leaves_defaults(),
 
     after_place_node = function(pos, placer, itemstack, pointed_thing)
-        minetest.set_node(pos, { name = 'x_farming:pine_nut', param2 = 1 })
+        core.set_node(pos, { name = 'x_farming:pine_nut', param2 = 1 })
     end,
 
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
         if oldnode.param2 == 0 then
-            minetest.set_node(pos, { name = 'x_farming:pine_nut_mark' })
-            minetest.get_node_timer(pos):start(math.random(300, 1500))
+            core.set_node(pos, { name = 'x_farming:pine_nut_mark' })
+            core.get_node_timer(pos):start(math.random(300, 1500))
         end
     end,
 }
 
-minetest.register_node('x_farming:pine_nut', pine_nut_def)
+core.register_node('x_farming:pine_nut', pine_nut_def)
 
 local pine_nut_roasted_def = {
     description = S('Pine Nut Roasted') .. '\n' .. S('Compost chance') .. ': 85%\n'
-        .. minetest.colorize(x_farming.colors.brown, S('Hunger') .. ': 2'),
+        .. core.colorize(x_farming.colors.brown, S('Hunger') .. ': 2'),
     short_description = S('Pine Nut Roasted'),
     inventory_image = 'x_farming_pine_nut_roasted.png',
     groups = {
@@ -326,18 +326,18 @@ local pine_nut_roasted_def = {
     _mcl_hardness = 0,
 }
 
-if minetest.get_modpath('farming') then
-    pine_nut_roasted_def.on_use = minetest.item_eat(2)
+if core.get_modpath('farming') then
+    pine_nut_roasted_def.on_use = core.item_eat(2)
 end
 
-if minetest.get_modpath('mcl_farming') then
-    pine_nut_roasted_def.on_place = minetest.item_eat(2)
-    pine_nut_roasted_def.on_secondary_use = minetest.item_eat(2)
+if core.get_modpath('mcl_farming') then
+    pine_nut_roasted_def.on_place = core.item_eat(2)
+    pine_nut_roasted_def.on_secondary_use = core.item_eat(2)
 end
 
-minetest.register_craftitem('x_farming:pine_nut_roasted', pine_nut_roasted_def)
+core.register_craftitem('x_farming:pine_nut_roasted', pine_nut_roasted_def)
 
-minetest.register_node('x_farming:pine_nut_mark', {
+core.register_node('x_farming:pine_nut_mark', {
     description = S('Pine Nut Marker'),
     short_description = S('Pine Nut Marker'),
     inventory_image = 'x_farming:pine_nut.png^x_farming_invisible_node_overlay.png',
@@ -352,12 +352,12 @@ minetest.register_node('x_farming:pine_nut_mark', {
     drop = '',
     groups = { not_in_creative_inventory = 1 },
     on_timer = function(pos, elapsed)
-        if not minetest.find_node_near(pos, 1, {'x_farming:pine_nut_leaves',"default:pine_needles"}) then
-            minetest.remove_node(pos)
-        elseif minetest.get_node_light(pos) < 11 then
-            minetest.get_node_timer(pos):start(200)
+        if not core.find_node_near(pos, 1, {'x_farming:pine_nut_leaves',"default:pine_needles"}) then
+            core.remove_node(pos)
+        elseif core.get_node_light(pos) < 11 then
+            core.get_node_timer(pos):start(200)
         else
-            minetest.set_node(pos, { name = 'x_farming:pine_nut' })
+            core.set_node(pos, { name = 'x_farming:pine_nut' })
         end
     end
 })
@@ -385,7 +385,7 @@ x_farming.register_crate('crate_pine_nut_3', {
     }
 })
 
---[[minetest.register_decoration(asuna.features.crops.pine_nut.inject_decoration({
+--[[core.register_decoration(asuna.features.crops.pine_nut.inject_decoration({
     deco_type = "schematic",
     sidelen = 16,
     noise_params = {
@@ -398,12 +398,12 @@ x_farming.register_crate('crate_pine_nut_3', {
     },
     y_max = 31000,
     y_min = 4,
-    schematic = minetest.get_modpath("x_farming") .. '/schematics/x_farming_pine_nut_tree.mts',
+    schematic = core.get_modpath("x_farming") .. '/schematics/x_farming_pine_nut_tree.mts',
     flags = 'place_center_x, place_center_z'
 }))]]
 
 -- Mapgen
-local c_pine_nut = minetest.get_content_id("x_farming:pine_nut")
+local c_pine_nut = core.get_content_id("x_farming:pine_nut")
 
 local c_pine_tree = {}
 for _,tree in ipairs({
@@ -411,7 +411,7 @@ for _,tree in ipairs({
     "naturalbiomes:alppine1_trunk",
     "naturalbiomes:alppine2_trunk",
 }) do
-    c_pine_tree[minetest.get_content_id(tree)] = true
+    c_pine_tree[core.get_content_id(tree)] = true
 end
 
 local c_pine_needles = {}
@@ -420,7 +420,7 @@ for _,needles in ipairs({
     "naturalbiomes:alppine1_leaves",
     "naturalbiomes:alppine2_leaves",
 }) do
-    c_pine_needles[minetest.get_content_id(needles)] = true
+    c_pine_needles[core.get_content_id(needles)] = true
 end
 
 abdecor.register_advanced_decoration("x_farming_pine_nut",{
@@ -472,7 +472,7 @@ abdecor.register_advanced_decoration("x_farming_pine_nut",{
             for z = -2 * zstride, 2 * zstride, zstride do
                 for y = 0, 11 * ystride, ystride do
                     pnpos = pos + x + z + y
-                    if vdata[pnpos] == minetest.CONTENT_AIR and c_pine_needles[vdata[pnpos + ystride]] then
+                    if vdata[pnpos] == core.CONTENT_AIR and c_pine_needles[vdata[pnpos + ystride]] then
                         table.insert(place,pnpos)
                         y = y + ystride
                     end

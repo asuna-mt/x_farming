@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- CORN
 x_farming.register_plant('x_farming:corn', {
@@ -44,9 +44,9 @@ local corn_def = {
     },
 }
 
-minetest.override_item('x_farming:corn', corn_def)
+core.override_item('x_farming:corn', corn_def)
 
-minetest.override_item('x_farming:corn_6', {
+core.override_item('x_farming:corn_6', {
     visual_scale = 2.0,
     selection_box = {
         type = 'fixed',
@@ -54,7 +54,7 @@ minetest.override_item('x_farming:corn_6', {
     }
 })
 
-minetest.override_item('x_farming:corn_7', {
+core.override_item('x_farming:corn_7', {
     visual_scale = 2.0,
     selection_box = {
         type = 'fixed',
@@ -62,7 +62,7 @@ minetest.override_item('x_farming:corn_7', {
     }
 })
 
-minetest.override_item('x_farming:corn_8', {
+core.override_item('x_farming:corn_8', {
     visual_scale = 2.0,
     selection_box = {
         type = 'fixed',
@@ -70,7 +70,7 @@ minetest.override_item('x_farming:corn_8', {
     }
 })
 
-minetest.override_item('x_farming:corn_9', {
+core.override_item('x_farming:corn_9', {
     visual_scale = 2.0,
     selection_box = {
         type = 'fixed',
@@ -78,7 +78,7 @@ minetest.override_item('x_farming:corn_9', {
     }
 })
 
-minetest.override_item('x_farming:corn_10', {
+core.override_item('x_farming:corn_10', {
     visual_scale = 2.0,
     selection_box = {
         type = 'fixed',
@@ -89,7 +89,7 @@ minetest.override_item('x_farming:corn_10', {
 -- Popped corn
 local popperd_corn_def = {
     description = S('Popped corn') .. '\n' .. S('Compost chance') .. ': 50%\n'
-        .. minetest.colorize(x_farming.colors.brown, S('Hunger') .. ': 1'),
+        .. core.colorize(x_farming.colors.brown, S('Hunger') .. ': 1'),
     short_description = S('Popped corn'),
     inventory_image = 'x_farming_corn_pop.png',
     groups = {
@@ -102,21 +102,21 @@ local popperd_corn_def = {
     },
 }
 
-if minetest.get_modpath('farming') then
-    popperd_corn_def.on_use = minetest.item_eat(1)
+if core.get_modpath('farming') then
+    popperd_corn_def.on_use = core.item_eat(1)
 end
 
-if minetest.get_modpath('mcl_farming') then
-    popperd_corn_def.on_place = minetest.item_eat(1)
-    popperd_corn_def.on_secondary_use = minetest.item_eat(1)
+if core.get_modpath('mcl_farming') then
+    popperd_corn_def.on_place = core.item_eat(1)
+    popperd_corn_def.on_secondary_use = core.item_eat(1)
 end
 
-minetest.register_craftitem('x_farming:corn_pop', popperd_corn_def)
+core.register_craftitem('x_farming:corn_pop', popperd_corn_def)
 
 -- Popcorn
 local popcorn_def = {
     description = S('Popcorn') .. '\n' .. S('Compost chance') .. ': 65%\n'
-        .. minetest.colorize(x_farming.colors.brown, S('Hunger') .. ': 5'),
+        .. core.colorize(x_farming.colors.brown, S('Hunger') .. ': 5'),
     short_description = S('Popcorn'),
     drawtype = 'mesh',
     mesh = 'x_farming_corn_popcorn.obj',
@@ -153,18 +153,18 @@ local popcorn_def = {
         destroy_by_lava_flow = 1,
     },
     sounds = x_farming.node_sound_leaves_defaults(),
-    on_use = minetest.item_eat(5),
+    on_use = core.item_eat(5),
     sunlight_propagates = true,
     _mcl_saturation = 0.6,
     _mcl_blast_resistance = 0,
     _mcl_hardness = 0,
 }
 
-if minetest.get_modpath('mcl_farming') then
-    popcorn_def.on_secondary_use = minetest.item_eat(5)
+if core.get_modpath('mcl_farming') then
+    popcorn_def.on_secondary_use = core.item_eat(5)
 end
 
-minetest.register_node('x_farming:corn_popcorn', popcorn_def)
+core.register_node('x_farming:corn_popcorn', popcorn_def)
 
 ---crate
 x_farming.register_crate('crate_corn_3', {
@@ -176,7 +176,7 @@ x_farming.register_crate('crate_corn_3', {
     }
 })
 
-minetest.register_decoration(asuna.features.crops.corn.inject_decoration({
+core.register_decoration(asuna.features.crops.corn.inject_decoration({
     deco_type = "simple",
     sidelen = 8,
     noise_params = {

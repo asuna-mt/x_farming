@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- PUMPKIN
 x_farming.register_plant('x_farming:pumpkin', {
@@ -72,14 +72,14 @@ local pumpkin_fruit_def = {
     },
     after_dig_node = function(pos, oldnode, oldmetadata, digger)
         local parent = oldmetadata.fields.parent
-        local parent_pos_from_child = minetest.string_to_pos(parent)
+        local parent_pos_from_child = core.string_to_pos(parent)
         local parent_node = nil
 
         -- make sure we have position
         if parent_pos_from_child
             and parent_pos_from_child ~= nil then
 
-            parent_node = minetest.get_node(parent_pos_from_child)
+            parent_node = core.get_node(parent_pos_from_child)
         end
 
         -- tick parent if parent stem still exists
@@ -92,10 +92,10 @@ local pumpkin_fruit_def = {
     end
 }
 
-minetest.register_node('x_farming:pumpkin_fruit', pumpkin_fruit_def)
+core.register_node('x_farming:pumpkin_fruit', pumpkin_fruit_def)
 
 -- PUMPKIN BLOCK - HARVEST from crops
-minetest.register_node('x_farming:pumpkin_block', {
+core.register_node('x_farming:pumpkin_block', {
     description = S('Pumpkin Block') .. '\n' .. S('Compost chance') .. ': 65%',
     short_description = S('Pumpkin Block'),
     tiles = {
@@ -131,7 +131,7 @@ minetest.register_node('x_farming:pumpkin_block', {
 })
 
 -- PUMPKIN LANTERN -- from recipe
-minetest.register_node('x_farming:pumpkin_lantern', {
+core.register_node('x_farming:pumpkin_lantern', {
     description = S('Pumpkin Lantern'),
     short_description = S('Pumpkin Lantern'),
     tiles = {
@@ -162,16 +162,16 @@ minetest.register_node('x_farming:pumpkin_lantern', {
 })
 
 -- drop blocks instead of items
-minetest.register_alias_force('x_farming:pumpkin', 'x_farming:pumpkin_fruit')
+core.register_alias_force('x_farming:pumpkin', 'x_farming:pumpkin_fruit')
 
 -- take over the growth from minetest_game farming from here
-minetest.override_item('x_farming:pumpkin_8', {
+core.override_item('x_farming:pumpkin_8', {
     next_plant = 'x_farming:pumpkin_fruit',
     on_timer = x_farming.grow_block
 })
 
 -- replacement LBM for pre-nodetimer plants
-minetest.register_lbm({
+core.register_lbm({
     name = 'x_farming:start_nodetimer_pumpkin',
     nodenames = { 'x_farming:pumpkin_8' },
     action = function(pos, node)
@@ -189,7 +189,7 @@ x_farming.register_crate('crate_pumpkin_block_3', {
     }
 })
 
-minetest.register_decoration(asuna.features.crops.pumpkin.inject_decoration({
+core.register_decoration(asuna.features.crops.pumpkin.inject_decoration({
     deco_type = "simple",
     sidelen = 8,
     noise_params = {

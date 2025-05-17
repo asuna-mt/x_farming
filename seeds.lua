@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -17,7 +17,7 @@
 --]]
 
 -- Register farming items as dungeon loot
-if minetest.global_exists('dungeon_loot') then
+if core.global_exists('dungeon_loot') then
     dungeon_loot.register({
         { name = 'x_farming:seed_obsidian_wart', chance = 0.3, count = { 1, 2 } },
         { name = 'x_farming:seed_pumpkin', chance = 0.4, count = { 1, 4 } },

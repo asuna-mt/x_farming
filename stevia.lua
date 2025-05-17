@@ -1,6 +1,6 @@
 --[[
-    X Farming. Extends Minetest farming mod with new plants, crops and ice fishing.
-    Copyright (C) 2024 SaKeL
+    X Farming. Extends Luanti farming mod with new plants, crops and ice fishing.
+    Copyright (C) 2025 SaKeL
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Lesser General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to juraj.vajda@gmail.com
 --]]
 
-local S = minetest.get_translator(minetest.get_current_modname())
+local S = core.get_translator(core.get_current_modname())
 
 -- STEVIA
 x_farming.register_plant('x_farming:stevia', {
@@ -33,7 +33,7 @@ x_farming.register_plant('x_farming:stevia', {
 })
 
 -- needed
-minetest.override_item('x_farming:stevia', {
+core.override_item('x_farming:stevia', {
     description = S('Stevia') .. '\n' .. S('Compost chance') .. ': 65%',
     short_description = S('Stevia'),
     groups = {
@@ -44,7 +44,7 @@ minetest.override_item('x_farming:stevia', {
     },
 })
 
-minetest.register_craftitem('x_farming:sugar', {
+core.register_craftitem('x_farming:sugar', {
     description = S('Sugar'),
     short_description = S('Sugar'),
     inventory_image = 'x_farming_sugar.png',
@@ -61,7 +61,7 @@ x_farming.register_crate('crate_stevia_3', {
     }
 })
 
-minetest.register_decoration(asuna.features.crops.stevia.inject_decoration({
+core.register_decoration(asuna.features.crops.stevia.inject_decoration({
     deco_type = "simple",
     sidelen = 8,
     noise_params = {
